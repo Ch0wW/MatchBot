@@ -54,7 +54,7 @@ int CMatchTimer::GetDelay()
 
 void CMatchTimer::Task(int PlayersMin)
 {
-	auto NeededCount = (PlayersMin - gMatchUtil.GetPlayers(true, true).size());
+	auto NeededCount = (static_cast<int>(gMatchBot.m_PlayersMin->value) - gMatchUtil.GetPlayers(true, true).size());
 
 	if (NeededCount > 0)
 	{
