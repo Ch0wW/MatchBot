@@ -234,6 +234,8 @@ public:
 	cvar_t* m_AutoDemoRecord = nullptr;
 	cvar_t* m_HelpFile = nullptr;
 	cvar_t* m_HelpFileAdmin = nullptr;
+
+	cvar_t* m_MaplistFile = nullptr;
 };
 
 extern CMatchBot gMatchBot;

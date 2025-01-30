@@ -572,8 +572,28 @@ std::map<int, std::string> CMatchUtil::GetMapList(bool CurrentMap)
 	// Map List container
 	std::map<int, std::string> MapList;
 
+	char MapFile[] = MB_MAP_LIST_FILE;
+
 	// Map Index
 	auto MapIndex = 0;
+
+	// If has help variable
+	if (gMatchBot.m_MaplistFile)
+	{
+		// If string is not null
+		if (gMatchBot.m_MaplistFile->string)
+		{
+			// If is not empty
+			if (gMatchBot.m_MaplistFile->string[0U] != '\0')
+			{
+				// Clear 
+				Q_memset(MapFile, 0, sizeof(MapFile));
+
+				// Set to Path
+				Q_sprintf(MapFile, "%s/%s", mb_basefolder, gMatchBot.m_MaplistFile->string);
+			}
+		}
+	}
 
 	// Memory Script instance
 	CMemScript* lpMemScript = new CMemScript;
@@ -582,7 +602,7 @@ std::map<int, std::string> CMatchUtil::GetMapList(bool CurrentMap)
 	if (lpMemScript)
 	{
 		// Try to load file
-		if (lpMemScript->SetBuffer(MB_MAP_LIST_FILE))
+		if (lpMemScript->SetBuffer(MapFile))
 		{
 			try
 			{

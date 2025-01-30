@@ -171,10 +171,10 @@ void CMatchBot::ServerActivate()
 	this->m_RoundFlashCount = gMatchUtil.CvarRegister("mb_round_flash_count", "0");
 
 	// Users Help File or Website url (Without HTTPS)
-	this->m_HelpFile = gMatchUtil.CvarRegister("mb_help_file", "cstrike/addons/matchbot/users_help.html");
+	this->m_HelpFile = gMatchUtil.CvarRegister("mb_help_file", "users_help.html");
 
 	// Admin Help File or Website url (Without HTTPS)
-	this->m_HelpFileAdmin = gMatchUtil.CvarRegister("mb_help_file_admin", "cstrike/addons/matchbot/admin_help.html");
+	this->m_HelpFileAdmin = gMatchUtil.CvarRegister("mb_help_file_admin", "admin_help.html");
 
 	// Match Bot main config
 	this->m_Config[STATE_DEAD] = gMatchUtil.CvarRegister("mb_cfg_match_bot", "matchbot.cfg");
@@ -202,6 +202,9 @@ void CMatchBot::ServerActivate()
 
 	// Run Match Bot
 	this->SetState(STATE_DEAD);
+
+	// Admin Help File or Website url (Without HTTPS)
+	this->m_MaplistFile = gMatchUtil.CvarRegister("mb_maplistfile", "maplist.txt");
 
 	// Load Language
 	gMatchLanguage.Load();
@@ -1003,7 +1006,7 @@ void CMatchBot::Help(CBasePlayer* Player, bool AdminHelp)
 					Q_memset(Path, 0, sizeof(Path));
 
 					// Set to Path
-					Q_strcpy(Path, this->m_HelpFileAdmin->string);
+					Q_sprintf(Path, "%s/%s", mb_basefolder, this->m_HelpFileAdmin->string);
 				}
 			}
 		}
@@ -1023,7 +1026,7 @@ void CMatchBot::Help(CBasePlayer* Player, bool AdminHelp)
 					Q_memset(Path, 0, sizeof(Path));
 
 					// Set to Path
-					Q_strcpy(Path, this->m_HelpFile->string);
+					Q_sprintf(Path, "%s/%s", mb_basefolder, this->m_HelpFile->string);
 				}
 			}
 		}

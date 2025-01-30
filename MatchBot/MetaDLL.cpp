@@ -18,6 +18,19 @@ C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS* pFunctionTable, int* interfaceVersi
 	return 1;
 }
 
+#define GET_INFOKEYBUFFER           (*g_engfuncs.pfnGetInfoKeyBuffer)
+#define INFOKEY_VALUE               (*g_engfuncs.pfnInfoKeyValue)
+
+char* ENTITY_KEYVALUE(edict_t* entity, char* key)
+{
+	return INFOKEY_VALUE(GET_INFOKEYBUFFER(entity), key);
+}
+
+const char* LOCALINFO(char* key)
+{
+	return ENTITY_KEYVALUE(nullptr, key);
+}
+
 BOOL DLL_PRE_ClientConnect(edict_t* pEntity, const char* pszName, const char* pszAddress, char szRejectReason[128])
 {
 	if (!gMatchAdmin.PlayerConnect(pEntity, pszName, pszAddress, szRejectReason))
@@ -68,8 +81,19 @@ C_DLLEXPORT int GetEntityAPI2_Post(DLL_FUNCTIONS* pFunctionTable, int* interface
 	return 1;
 }
 
+char mb_basefolder[128];
+
 void DLL_POST_ServerActivate(edict_t* pEdictList, int edictCount, int clientMax)
 {
+
+	const char* cp = LOCALINFO("mb_base");
+	if (cp && *cp != '\0') {
+		Q_strlcpy(mb_basefolder, cp);
+	} else {
+		Q_strlcpy(mb_basefolder, "cstrike/addons/matchbot");
+	}
+
+
 	gMatchTask.ServerActivate();
 
 	gMatchCommand.ServerActivate();

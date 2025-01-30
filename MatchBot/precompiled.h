@@ -66,6 +66,8 @@
 #include "include/MemScript.h"
 
 // Match Bot
+extern char mb_basefolder[128];
+
 #include "MatchMenu.h"
 #include "MatchAdmin.h"
 #include "MatchAdminMenu.h"
